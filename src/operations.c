@@ -52,34 +52,43 @@ Matrix *transposed(Matrix *mat) {
     int i, j;
     // alocam memoria pentru matricea transpusa
     Matrix *new_matrix;
-    new_matrix = (Matrix *) malloc(sizeof(Matrix));
-    new_matrix -> rows = mat -> cols;
-    new_matrix -> cols = mat -> rows;
-    new_matrix -> name = (char *) malloc(10 * sizeof(char));
-    strcpy(new_matrix -> name, "Transpusa");
-    new_matrix -> elems = (double **) malloc(new_matrix -> rows * sizeof(double *));
-    new_matrix->elems[0] = malloc(new_matrix->rows * new_matrix->cols * sizeof(double));
-    for (int i = 1; i < new_matrix->rows; ++i) {
-        new_matrix->elems[i] = new_matrix->elems[0] + i * new_matrix->cols;
+    new_matrix = allocMatrix(mat -> cols, mat -> rows, "Transpusa");
+    // transpunerea propiu-zisa
+    for(i = 0; i < new_matrix -> rows; i++) {
+        for(j = 0; j < new_matrix -> cols; j++) {
+            new_matrix -> elems[i][j] = mat -> elems[j][i];
+        }
     }
-    // to be continued
+    // returnam matricea transpusa
+    return new_matrix;
+
 }
 int main() {
     int i,j;
-    Matrix *matrice1, *matrice2, *rezultat;
-    matrice1 = readMatrix();
-    matrice2 =  readMatrix();
-    rezultat = multiplication(matrice1, matrice2);
-    if(rezultat != 0) {
-        printf("Matricea rezultata este:\n");
-        for(i = 0; i < rezultat -> rows; i++) {
-            for(j = 0; j < rezultat -> cols; j++) {
-                printf("%lf ", rezultat -> elems[i][j]);
-            }
-            printf("\n");
+    Matrix *rezultat1, *rezultat2;
+    MatrixList *List;
+    List = (MatrixList *) malloc(sizeof(MatrixList));
+    List -> nrMats = 0;
+    List -> head = NULL;
+    readMatrix(List);
+    readMatrix(List);
+    rezultat1 = transposed(List -> head -> mat);
+    rezultat2 = transposed(List -> head -> next -> mat);
+    // prima matrice transpusa
+    for(i = 0; i < rezultat1 -> rows; i++){
+        for(j = 0; j < rezultat1 -> cols; j++) {
+            printf("%lf ", rezultat1 -> elems[i][j]);
         }
-        freeMatrix(rezultat);
+        printf("\n");
     }
-    freeMatrix(matrice1);
-    freeMatrix(matrice2);
+    // a doua matrice transpusa
+    for(i = 0; i < rezultat2 -> rows; i++) {
+        for(j = 0; j < rezultat2 -> cols; j++) {
+            printf("%lf ", rezultat2 -> elems[i][j]);
+        }
+        printf("\n");
+    }
+    freeMatList(List, freeMatrix);
+    freeMatrix(rezultat1);
+    freeMatrix(rezultat2);
 }
