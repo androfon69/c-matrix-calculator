@@ -2,7 +2,7 @@
 #define _LIST_H_
 
 typedef struct ListNode {
-    Matrix *mat;
+    void *mat;
     struct ListNode *next;
 } ListNode;
 
@@ -12,7 +12,7 @@ typedef struct MatrixList {
 } MatrixList;
 
 MatrixList* initMatList();
-void insertMatrix(MatrixList *list, Matrix *mat);
-MatrixList* freeMatList(MatrixList *list);
+void insertMatrix(MatrixList *list, void *mat);
+MatrixList* freeMatList(MatrixList *list, void (*freeFunc)(void *));
 
 #endif

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/matrix.h"
 #include "../include/list.h"
 
 MatrixList* initMatList() {
@@ -11,7 +10,7 @@ MatrixList* initMatList() {
     return newList;
 }
 
-void insertMatrix(MatrixList *list, Matrix *mat) {
+void insertMatrix(MatrixList *list, void *mat) {
     ListNode *newNode = malloc(sizeof(ListNode));
     newNode->mat = mat;
 
@@ -19,7 +18,7 @@ void insertMatrix(MatrixList *list, Matrix *mat) {
     list->head = newNode;
 }
 
-MatrixList* freeMatList(MatrixList *list) {
+MatrixList* freeMatList(MatrixList *list, void (*freeFunc) (void *)) {
     if (list == NULL) {
         return list;
     }
@@ -30,11 +29,8 @@ MatrixList* freeMatList(MatrixList *list) {
     while (temp != NULL) {
         head = head->next;
 
-        free(temp->mat->name);
-        free(temp->mat->elems[0]);
-        free(temp->mat->elems);
-        free(temp->mat);
-        free(temp);
+        freeFunc(temp->mat);
+        temp->mat = NULL;
 
         temp = head;
     }
