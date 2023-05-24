@@ -9,7 +9,7 @@ typedef struct Matrix {
 
 Matrix* allocMatrix(int rows, int cols, char *name);
 Matrix* readMatrix(MatrixList *list);
-int isNameValid(char *name);
+int isNameValid(MatrixList *list, char *name);
 Matrix* isMatInList(MatrixList *list, char *matName);
 void clearInput();
 void clearConsole();

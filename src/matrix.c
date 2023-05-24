@@ -20,21 +20,6 @@ Matrix* allocMatrix(int rows, int cols, char *name) {
     return newMatrix;
 }
 
-int isNameValid(char *name) {
-    char validChars[] = "abcdefghijklmnopqrstuvwxyz"
-                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                        "0123456789-_";
-
-    for (u_int i = 0; i < strlen(name); ++i) {
-        if (!strchr(validChars, name[i])) {
-            printf("Name can contain only letters and numbers!\n");
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
 Matrix* isMatInList(MatrixList *list, char *matName) {
     ListNode *temp = list->head;
 
@@ -48,6 +33,43 @@ Matrix* isMatInList(MatrixList *list, char *matName) {
     }
 
     return NULL;
+}
+
+int isNameValid(MatrixList *list, char *name) {
+    char validChars[] = "abcdefghijklmnopqrstuvwxyz"
+                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        "0123456789-_";
+
+    Matrix *mat = isMatInList(list, name);
+
+    if (mat != NULL) {
+        printf("Matrix already exists!\n");
+        printf("Do you want to replace it?\n");
+        printf("Yes(y) No(n)\n");
+
+        char c = getchar();
+
+        while (c != 'y' && c != 'n') {
+            c = getchar();
+        }
+
+        if (c == 'y') {
+            deleteMatrix(list, mat, freeMatrix);
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    for (u_int i = 0; i < strlen(name); ++i) {
+        if (!strchr(validChars, name[i])) {
+            printf("Name can contain only letters and numbers!\n");
+            return 0;
+        }
+    }
+
+    return 1;
 }
 
 void clearInput() {
@@ -66,7 +88,7 @@ Matrix* readMatrix(MatrixList *list) {
         printf("Enter a name for your matrix:\n");
         scanf("%s", tempBuff);
         clearInput();
-    } while (isNameValid(tempBuff) == 0);
+    } while (isNameValid(list, tempBuff) == 0);
 
     printf("Enter the dimensions of the matrix you want to read:\n");
 
