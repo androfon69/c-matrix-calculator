@@ -1,3 +1,8 @@
 *.o
 main
 list
+matrix
+commands
+operations
+.idea
+valgrind*
