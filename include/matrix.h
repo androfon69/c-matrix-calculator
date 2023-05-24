@@ -7,6 +7,7 @@ typedef struct Matrix {
     double **elems;
 } Matrix;
 
+Matrix* allocMatrix(int rows, int cols, char *name);
 Matrix* readMatrix(MatrixList *list);
 int isNameValid(char *name);
 Matrix* isMatInList(MatrixList *list, char *matName);
