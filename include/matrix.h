@@ -8,5 +8,12 @@ typedef struct Matrix {
 } Matrix;
 
 Matrix* readMatrix();
+int isNameValid(char *name);
+int isMatInList(MatrixList *list, char *matName);
+void clearInput();
+void clearConsole();
+void printMatrixList(MatrixList *list);
+void printMatrix(MatrixList *list, char *matName);
+void freeMatrix(void *matrix);
 
 #endif
