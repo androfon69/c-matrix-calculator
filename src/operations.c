@@ -47,6 +47,23 @@ Matrix *multiplication(Matrix *mat1, Matrix *mat2) {
         return NULL;
     }
 }
+// functie pentru a face transpusa unei matrici
+Matrix *transposed(Matrix *mat) {
+    int i, j;
+    // alocam memoria pentru matricea transpusa
+    Matrix *new_matrix;
+    new_matrix = (Matrix *) malloc(sizeof(Matrix));
+    new_matrix -> rows = mat -> cols;
+    new_matrix -> cols = mat -> rows;
+    new_matrix -> name = (char *) malloc(10 * sizeof(char));
+    strcpy(new_matrix -> name, "Transpusa");
+    new_matrix -> elems = (double **) malloc(new_matrix -> rows * sizeof(double *));
+    new_matrix->elems[0] = malloc(new_matrix->rows * new_matrix->cols * sizeof(double));
+    for (int i = 1; i < new_matrix->rows; ++i) {
+        new_matrix->elems[i] = new_matrix->elems[0] + i * new_matrix->cols;
+    }
+    // to be continued
+}
 int main() {
     int i,j;
     Matrix *matrice1, *matrice2, *rezultat;
