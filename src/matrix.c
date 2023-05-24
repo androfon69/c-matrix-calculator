@@ -56,12 +56,32 @@ Matrix* readMatrix() {
     strcpy(newMatrix->name, tempBuff);
 
     printf("Enter the dimensions of the matrix you want to read:\n");
-    printf("Rows: ");
-    scanf("%d", &newMatrix->rows);
-    clearInput();
-    printf("Cols: ");
-    scanf("%d", &newMatrix->cols);
-    clearInput();
+
+    while (1) {
+        printf("Rows: ");
+        int retValue = scanf("%d", &newMatrix->rows);
+        clearInput();
+
+        if (retValue != 1) {
+            printf("Invalid size! Please enter an integer\n");
+        }
+        else {
+            break;
+        }
+    }
+
+    while (1) {
+        printf("Cols: ");
+        int retValue = scanf("%d", &newMatrix->cols);
+        clearInput();
+
+        if (retValue != 1) {
+            printf("Invalid size! Please enter an integer\n");
+        }
+        else {
+            break;
+        }
+    }
 
     newMatrix->elems = malloc(newMatrix->rows * sizeof(double*));
     newMatrix->elems[0] = malloc(newMatrix->rows * newMatrix->cols * sizeof(double));
