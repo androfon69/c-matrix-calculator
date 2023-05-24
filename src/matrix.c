@@ -19,19 +19,19 @@ int isNameValid(char *name) {
     return 1;
 }
 
-int isMatInList(MatrixList *list, char *matName) {
+Matrix* isMatInList(MatrixList *list, char *matName) {
     ListNode *temp = list->head;
 
     while (temp != NULL) {
         Matrix *mat = (Matrix*)temp->mat;
         if (!strcmp(mat->name, matName)) {
-            return 1;
+            return mat;
         }
 
         temp = temp->next;
     }
 
-    return 0;
+    return NULL;
 }
 
 void clearInput() {
@@ -42,7 +42,7 @@ void clearConsole() {
     system("clear");
 }
 
-Matrix* readMatrix() {
+Matrix* readMatrix(MatrixList *list) {
     Matrix *newMatrix = malloc(sizeof(Matrix));
     char tempBuff[256];
 
@@ -56,12 +56,32 @@ Matrix* readMatrix() {
     strcpy(newMatrix->name, tempBuff);
 
     printf("Enter the dimensions of the matrix you want to read:\n");
-    printf("Rows: ");
-    scanf("%d", &newMatrix->rows);
-    clearInput();
-    printf("Cols: ");
-    scanf("%d", &newMatrix->cols);
-    clearInput();
+
+    while (1) {
+        printf("Rows: ");
+        int retValue = scanf("%d", &newMatrix->rows);
+        clearInput();
+
+        if (retValue != 1) {
+            printf("Invalid size! Please enter an integer\n");
+        }
+        else {
+            break;
+        }
+    }
+
+    while (1) {
+        printf("Cols: ");
+        int retValue = scanf("%d", &newMatrix->cols);
+        clearInput();
+
+        if (retValue != 1) {
+            printf("Invalid size! Please enter an integer\n");
+        }
+        else {
+            break;
+        }
+    }
 
     newMatrix->elems = malloc(newMatrix->rows * sizeof(double*));
     newMatrix->elems[0] = malloc(newMatrix->rows * newMatrix->cols * sizeof(double));
@@ -78,6 +98,8 @@ Matrix* readMatrix() {
     }
 
     clearInput();
+
+    insertMatrix(list, newMatrix);
 
     return newMatrix;
 }

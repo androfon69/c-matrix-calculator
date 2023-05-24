@@ -14,5 +14,6 @@ typedef struct MatrixList {
 MatrixList* initMatList();
 void insertMatrix(MatrixList *list, void *mat);
 MatrixList* freeMatList(MatrixList *list, void (*freeFunc)(void *));
+void deleteMatrix(MatrixList *list, void *mat, void (*freeFunc) (void *));
 
 #endif
