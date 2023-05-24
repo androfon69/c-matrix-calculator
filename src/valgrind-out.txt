@@ -1,0 +1,178 @@
+==8364== Memcheck, a memory error detector
+==8364== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==8364== Using Valgrind-3.21.0-d97fed7c3e-20230428 and LibVEX; rerun with -h for copyright info
+==8364== Command: ./operations
+==8364== Parent PID: 4895
+==8364== 
+--8364-- 
+--8364-- Valgrind options:
+--8364--    --leak-check=full
+--8364--    --show-leak-kinds=all
+--8364--    --track-origins=yes
+--8364--    --verbose
+--8364--    --log-file=valgrind-out.txt
+--8364-- Contents of /proc/version:
+--8364--   Linux version 6.1.29-1-MANJARO (builduser@fv-az292-908) (gcc (GCC) 12.2.1 20230201, GNU ld (GNU Binutils) 2.40) #1 SMP PREEMPT_DYNAMIC Wed May 17 14:00:55 UTC 2023
+--8364-- 
+--8364-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--8364-- Page sizes: currently 4096, max supported 4096
+--8364-- Valgrind library directory: /usr/lib/valgrind
+--8364-- Reading syms from /home/adelin/c-matrix-calculator/src/operations
+==8364== Downloading debug info for /home/adelin/c-matrix-calculator/src/operations...
+==8364== Server query failed: No such file or directory
+--8364-- Reading syms from /usr/lib/ld-linux-x86-64.so.2
+==8364== Downloading debug info for /usr/lib/ld-linux-x86-64.so.2...
+--8364--   Considering /home/adelin/.cache/debuginfod_client/f72a7ea28ae7a23cd90cdcc5537be1efa37c7b36/debuginfo ..
+--8364--   .. CRC is valid
+==8364== Successfully downloaded debug file for /usr/lib/ld-linux-x86-64.so.2
+--8364-- Reading syms from /usr/lib/valgrind/memcheck-amd64-linux
+==8364== Downloading debug info for /usr/lib/valgrind/memcheck-amd64-linux...
+--8364--   Considering /home/adelin/.cache/debuginfod_client/21561a08446ac6cd0aca1f19ec3cf8193a37e08d/debuginfo ..
+--8364--   .. CRC is valid
+==8364== Successfully downloaded debug file for /usr/lib/valgrind/memcheck-amd64-linux
+--8364--    object doesn't have a dynamic symbol table
+--8364-- Scheduler: using generic scheduler lock implementation.
+--8364-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==8364== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-8364-by-adelin-on-???
+==8364== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-8364-by-adelin-on-???
+==8364== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-8364-by-adelin-on-???
+==8364== 
+==8364== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==8364== don't want to do, unless you know exactly what you're doing,
+==8364== or are doing some strange experiment):
+==8364==   /usr/lib/valgrind/../../bin/vgdb --pid=8364 ...command...
+==8364== 
+==8364== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==8364==   /path/to/gdb ./operations
+==8364== and then give GDB the following command
+==8364==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=8364
+==8364== --pid is optional if only one valgrind process is running
+==8364== 
+--8364-- REDIR: 0x4023eb0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c1162 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--8364-- REDIR: 0x4022660 (ld-linux-x86-64.so.2:index) redirected to 0x580c117c (vgPlain_amd64_linux_REDIR_FOR_index)
+--8364-- Reading syms from /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+==8364== Downloading debug info for /usr/lib/valgrind/vgpreload_core-amd64-linux.so...
+--8364--   Considering /home/adelin/.cache/debuginfod_client/e9d74745228fe25e28f506616e6de17acc8c85dc/debuginfo ..
+--8364--   .. CRC is valid
+==8364== Successfully downloaded debug file for /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+--8364-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+==8364== Downloading debug info for /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so...
+--8364--   Considering /home/adelin/.cache/debuginfod_client/6f13a23e116866d1cbd837b779780ab20a826fd0/debuginfo ..
+--8364--   .. CRC is valid
+==8364== Successfully downloaded debug file for /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+==8364== WARNING: new redirection conflicts with existing -- ignoring it
+--8364--     old: 0x04023eb0 (strlen              ) R-> (0000.0) 0x580c1162 vgPlain_amd64_linux_REDIR_FOR_strlen
+--8364--     new: 0x04023eb0 (strlen              ) R-> (2007.0) 0x04847fe0 strlen
+--8364-- REDIR: 0x4022890 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4849100 (strcmp)
+--8364-- REDIR: 0x4021ab0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x484cef0 (mempcpy)
+--8364-- Reading syms from /usr/lib/libm.so.6
+==8364== Downloading debug info for /usr/lib/libm.so.6...
+--8364--   Considering /home/adelin/.cache/debuginfod_client/8933c56b84e52e8a4f59c23a7e9cda651ce59976/debuginfo ..
+--8364--   .. CRC is valid
+==8364== Successfully downloaded debug file for /usr/lib/libm.so.6
+--8364-- Reading syms from /usr/lib/libc.so.6
+==8364== Downloading debug info for /usr/lib/libc.so.6...
+--8364--   Considering /home/adelin/.cache/debuginfod_client/2f005a79cd1a8e385972f5a102f16adba414d75e/debuginfo ..
+--8364--   .. CRC is valid
+==8364== Successfully downloaded debug file for /usr/lib/libc.so.6
+==8364== WARNING: new redirection conflicts with existing -- ignoring it
+--8364--     old: 0x04a02460 (memalign            ) R-> (1011.0) 0x04846db0 memalign
+--8364--     new: 0x04a02460 (memalign            ) R-> (1017.0) 0x048472e0 aligned_alloc
+==8364== WARNING: new redirection conflicts with existing -- ignoring it
+--8364--     old: 0x04a02460 (memalign            ) R-> (1011.0) 0x04846db0 memalign
+--8364--     new: 0x04a02460 (memalign            ) R-> (1017.0) 0x04847260 aligned_alloc
+==8364== WARNING: new redirection conflicts with existing -- ignoring it
+--8364--     old: 0x04a02460 (memalign            ) R-> (1011.0) 0x04846db0 memalign
+--8364--     new: 0x04a02460 (memalign            ) R-> (1017.0) 0x048472e0 aligned_alloc
+==8364== WARNING: new redirection conflicts with existing -- ignoring it
+--8364--     old: 0x04a02460 (memalign            ) R-> (1011.0) 0x04846db0 memalign
+--8364--     new: 0x04a02460 (memalign            ) R-> (1017.0) 0x04847260 aligned_alloc
+--8364-- REDIR: 0x4024050 (ld-linux-x86-64.so.2:strncmp) redirected to 0x4848930 (strncmp)
+--8364-- REDIR: 0x4a081f0 (libc.so.6:strncasecmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a1a440 (libc.so.6:wmemcmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a06670 (libc.so.6:strchrnul) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a057f0 (libc.so.6:memrchr) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a04e60 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a19f50 (libc.so.6:wcslen) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a1b7c0 (libc.so.6:wcsnlen) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a084e0 (libc.so.6:strnlen) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a08570 (libc.so.6:strpbrk) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a06700 (libc.so.6:strcmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a05880 (libc.so.6:memset) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a19d10 (libc.so.6:wcschr) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a065f0 (libc.so.6:index) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a085a0 (libc.so.6:rindex) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a19da0 (libc.so.6:wcscmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a05aa0 (libc.so.6:stpncpy) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a1a3c0 (libc.so.6:wmemchr) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a08390 (libc.so.6:strncmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a05b00 (libc.so.6:strcasecmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a078a0 (libc.so.6:strcspn) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a19e30 (libc.so.6:wcscpy) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a06580 (libc.so.6:strcat) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a08290 (libc.so.6:strncasecmp_l) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a04d70 (libc.so.6:bcmp) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a07830 (libc.so.6:strcpy) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a05ba0 (libc.so.6:strcasecmp_l) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a08160 (libc.so.6:strlen) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a08430 (libc.so.6:strncpy) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a05a30 (libc.so.6:stpcpy) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a055b0 (libc.so.6:memmove) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+==8364== Preferring higher priority redirection:
+--8364--     old: 0x04ac0b00 (__memcpy_avx_unalign) R-> (2018.0) 0x0484a4e0 __memcpy_avx_unaligned_erms
+--8364--     new: 0x04ac0b00 (__memcpy_avx_unalign) R-> (2018.1) 0x0484bf80 memmove
+--8364-- REDIR: 0x4a04cf0 (libc.so.6:memchr) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a08760 (libc.so.6:strspn) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a056d0 (libc.so.6:mempcpy) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4a05970 (libc.so.6:rawmemchr) redirected to 0x48361c0 (_vgnU_ifunc_wrapper)
+--8364-- REDIR: 0x4ac56f0 (libc.so.6:__strrchr_avx2) redirected to 0x48479c0 (rindex)
+--8364-- REDIR: 0x4a01690 (libc.so.6:malloc) redirected to 0x48417d0 (malloc)
+--8364-- REDIR: 0x4ac3840 (libc.so.6:__strlen_avx2) redirected to 0x4847ec0 (strlen)
+--8364-- REDIR: 0x4ac2c60 (libc.so.6:__strchr_avx2) redirected to 0x4847ba0 (index)
+--8364-- REDIR: 0x4ac35f0 (libc.so.6:__strcpy_avx2) redirected to 0x4848010 (strcpy)
+--8364-- REDIR: 0x4ac0ac0 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x484caf0 (mempcpy)
+--8364-- REDIR: 0x4ac2ea0 (libc.so.6:__strchrnul_avx2) redirected to 0x484c9d0 (strchrnul)
+--8364-- REDIR: 0x4ac0b00 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x484bf80 (memmove)
+--8364-- REDIR: 0x4a01c40 (libc.so.6:free) redirected to 0x48440c0 (free)
+==8364== Conditional jump or move depends on uninitialised value(s)
+==8364==    at 0x48440E5: free (vg_replace_malloc.c:974)
+==8364==    by 0x109B7A: freeMatrix (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==    by 0x10950F: main (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==  Uninitialised value was created by a heap allocation
+==8364==    at 0x4841848: malloc (vg_replace_malloc.c:431)
+==8364==    by 0x109228: multiplication (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==    by 0x109469: main (in /home/adelin/c-matrix-calculator/src/operations)
+==8364== 
+==8364== 
+==8364== HEAP SUMMARY:
+==8364==     in use at exit: 144 bytes in 2 blocks
+==8364==   total heap usage: 15 allocs, 13 frees, 2,560 bytes allocated
+==8364== 
+==8364== Searching for pointers to 2 not-freed blocks
+==8364== Checked 111,904 bytes
+==8364== 
+==8364== 144 bytes in 2 blocks are definitely lost in loss record 1 of 1
+==8364==    at 0x4841848: malloc (vg_replace_malloc.c:431)
+==8364==    by 0x1092A6: multiplication (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==    by 0x109469: main (in /home/adelin/c-matrix-calculator/src/operations)
+==8364== 
+==8364== LEAK SUMMARY:
+==8364==    definitely lost: 144 bytes in 2 blocks
+==8364==    indirectly lost: 0 bytes in 0 blocks
+==8364==      possibly lost: 0 bytes in 0 blocks
+==8364==    still reachable: 0 bytes in 0 blocks
+==8364==         suppressed: 0 bytes in 0 blocks
+==8364== 
+==8364== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==8364== 
+==8364== 1 errors in context 1 of 2:
+==8364== Conditional jump or move depends on uninitialised value(s)
+==8364==    at 0x48440E5: free (vg_replace_malloc.c:974)
+==8364==    by 0x109B7A: freeMatrix (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==    by 0x10950F: main (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==  Uninitialised value was created by a heap allocation
+==8364==    at 0x4841848: malloc (vg_replace_malloc.c:431)
+==8364==    by 0x109228: multiplication (in /home/adelin/c-matrix-calculator/src/operations)
+==8364==    by 0x109469: main (in /home/adelin/c-matrix-calculator/src/operations)
+==8364== 
+==8364== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
