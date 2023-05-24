@@ -7,14 +7,13 @@ typedef struct Matrix {
     double **elems;
 } Matrix;
 
-
-Matrix* readMatrix();
+Matrix* readMatrix(MatrixList *list);
 int isNameValid(char *name);
-int isMatInList(MatrixList *list, char *matName);
+Matrix* isMatInList(MatrixList *list, char *matName);
 void clearInput();
 void clearConsole();
 void printMatrixList(MatrixList *list);
 void printMatrix(MatrixList *list, char *matName);
 void freeMatrix(void *matrix);
-Matrix *multiplication(Matrix *mat1, Matrix *mat2);
+
 #endif
