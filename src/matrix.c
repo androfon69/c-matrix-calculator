@@ -4,6 +4,22 @@
 #include "../include/list.h"
 #include "../include/matrix.h"
 
+Matrix* allocMatrix(int rows, int cols, char *name) {
+    Matrix *newMatrix = malloc(sizeof(Matrix));
+    newMatrix->name = malloc((strlen(name) + 1) * sizeof(char));
+    newMatrix->rows = rows;
+    newMatrix->cols = cols;
+    strcpy(newMatrix->name, name);
+
+    newMatrix->elems = malloc(newMatrix->rows * sizeof(double*));
+    newMatrix->elems[0] = malloc(newMatrix->rows * newMatrix->cols * sizeof(double));
+    for (int i = 1; i < newMatrix->rows; ++i) {
+        newMatrix->elems[i] = newMatrix->elems[0] + i * newMatrix->cols;
+    }
+
+    return newMatrix;
+}
+
 int isNameValid(char *name) {
     char validChars[] = "abcdefghijklmnopqrstuvwxyz"
                         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -43,8 +59,8 @@ void clearConsole() {
 }
 
 Matrix* readMatrix(MatrixList *list) {
-    Matrix *newMatrix = malloc(sizeof(Matrix));
     char tempBuff[256];
+    int rows, cols;
 
     do {
         printf("Enter a name for your matrix:\n");
@@ -52,14 +68,11 @@ Matrix* readMatrix(MatrixList *list) {
         clearInput();
     } while (isNameValid(tempBuff) == 0);
 
-    newMatrix->name = malloc((strlen(tempBuff) + 1) * sizeof(char));
-    strcpy(newMatrix->name, tempBuff);
-
     printf("Enter the dimensions of the matrix you want to read:\n");
 
     while (1) {
         printf("Rows: ");
-        int retValue = scanf("%d", &newMatrix->rows);
+        int retValue = scanf("%d", &rows);
         clearInput();
 
         if (retValue != 1) {
@@ -72,7 +85,7 @@ Matrix* readMatrix(MatrixList *list) {
 
     while (1) {
         printf("Cols: ");
-        int retValue = scanf("%d", &newMatrix->cols);
+        int retValue = scanf("%d", &cols);
         clearInput();
 
         if (retValue != 1) {
@@ -83,11 +96,7 @@ Matrix* readMatrix(MatrixList *list) {
         }
     }
 
-    newMatrix->elems = malloc(newMatrix->rows * sizeof(double*));
-    newMatrix->elems[0] = malloc(newMatrix->rows * newMatrix->cols * sizeof(double));
-    for (int i = 1; i < newMatrix->rows; ++i) {
-        newMatrix->elems[i] = newMatrix->elems[0] + i * newMatrix->cols;
-    }
+    Matrix *newMatrix = allocMatrix(rows, cols, tempBuff);
 
     printf("Enter the elements of your matrix\n");
 
