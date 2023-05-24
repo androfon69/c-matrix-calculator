@@ -24,6 +24,11 @@ void deleteMatrix(MatrixList *list, void *mat, void (*freeFunc) (void *)) {
         return;
     }
 
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!");
+        return;
+    }
+
     ListNode *temp, *prev;
 
     if (list->head->mat == mat) {
