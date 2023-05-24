@@ -3,6 +3,7 @@
 #include "../include/list.h"
 #include "../include/matrix.h"
 #include <string.h>
+#include <limits.h>
 
 // functie pentru inmultirea a doua matrici
 Matrix *multiplication(Matrix *mat1, Matrix *mat2) {
@@ -62,6 +63,19 @@ Matrix *transposed(Matrix *mat) {
     // returnam matricea transpusa
     return new_matrix;
 
+}
+
+// functia pentru a calcula determinantul unei matrici( daca matricea este
+// patratica),
+// to be continued
+double determinant(Matrix *matrice) {
+    if(matrice -> rows != matrice -> cols) {
+        printf("Determinantul nu poate fi calculat, matricea nu este patratica\n");
+        // returnam INT_MAX, determinantul nu a fost fi putut calculat
+        return INT_MAX;
+    } else {
+
+    }
 }
 int main() {
     int i,j;
