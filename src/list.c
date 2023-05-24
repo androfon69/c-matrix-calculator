@@ -20,7 +20,8 @@ void insertMatrix(MatrixList *list, void *mat) {
 }
 
 void deleteMatrix(MatrixList *list, void *mat, void (*freeFunc) (void *)) {
-    if (list->head == NULL) {
+    if (list->head == NULL || !list->nrMats) {
+        printf("You haven't read any matrices!\n");
         return;
     }
 

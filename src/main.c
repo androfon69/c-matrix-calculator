@@ -7,6 +7,7 @@
 
 int main() {
 
+    initScreen();
     run();
 
     return 0;

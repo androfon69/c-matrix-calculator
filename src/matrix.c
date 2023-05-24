@@ -141,7 +141,7 @@ void printMatrix(MatrixList *list, char *matName) {
         Matrix *mat = (Matrix*)temp->mat;
         if (!strcmp(mat->name, matName)) {
 
-            printf("Elementele matricei %s sunt:\n", mat->name);
+            printf("Matrix %s contains:\n", mat->name);
 
             for (int i = 0; i < mat->rows; ++i) {
                 for (int j = 0; j < mat->cols; ++j) {
@@ -155,7 +155,7 @@ void printMatrix(MatrixList *list, char *matName) {
         temp = temp->next;
     }
 
-    printf("Matricea %s nu a fost declarata.\n", matName);
+    printf("Matrix doesn't exist!\n");
 }
 
 void freeMatrix(void *matrix) {

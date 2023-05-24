@@ -4,7 +4,7 @@
 #define NR_COMMS 7
 #define COMM_SIZE 32
 #define DESC_SIZE 64
-#define RED "\003[0;31m"
+#define RED "\033[0;31m"
 #define GREEN "\033[0;32m"
 #define END_COLOUR "\033[0m"
 
@@ -21,6 +21,7 @@ enum commandEnum{
 
 int isCommandValid(char *command);
 void help();
+void initScreen();
 void run();
 
 #endif

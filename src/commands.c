@@ -40,10 +40,29 @@ int isCommandValid(char *command) {
 void help() {
     for (int i = 0; i < nrCommands; ++i) {
         printf("%s", commands[i]);
-        printf(GREEN);
-        printf("%s", commandDescriptions[i]);
-        printf(END_COLOUR);
+        printf("%s%s%s",GREEN, commandDescriptions[i], END_COLOUR);
     }
+}
+
+void initScreen() {
+    printf("%sALL commands should be run as %s%s<command_name> <ENTER KEY>%s\n\n",
+           RED, END_COLOUR, GREEN, END_COLOUR);
+
+    printf("%sALL inputs between %s%s<command_name>%s%s and %s%s<ENTER_KEY%s%s will be %s%sIGNORED%s\n\n",
+           RED, END_COLOUR, GREEN, END_COLOUR, RED, END_COLOUR, GREEN,
+           END_COLOUR, RED, END_COLOUR, GREEN, END_COLOUR);
+
+    printf("%sRun command %s%shelp%s%s to see full command list%s\n\n",
+           RED, END_COLOUR, GREEN, END_COLOUR, RED, END_COLOUR);
+
+    printf("--------------------------------------------------------\n\n");
+
+    printf("%sPress %s%s<ENTER KEY>%s%s to continue%s\n\n",
+           RED, END_COLOUR, GREEN, END_COLOUR, RED, END_COLOUR);
+
+    getchar();
+
+    clearConsole();
 }
 
 void run() {
@@ -75,6 +94,7 @@ void run() {
 
                 case PRINT:
 
+                    printf("Enter the matrix you want to print:\n");
                     scanf("%s", inputBuff);
                     clearInput();
                     printMatrix(list, inputBuff);
@@ -92,6 +112,7 @@ void run() {
 
                 case DELETE:
 
+                    printf("Enter the matrix you want to delete:\n");
                     scanf("%s", inputBuff);
                     clearInput();
                     Matrix *mat = isMatInList(list, inputBuff);
