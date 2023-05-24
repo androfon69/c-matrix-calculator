@@ -11,11 +11,45 @@ MatrixList* initMatList() {
 }
 
 void insertMatrix(MatrixList *list, void *mat) {
+    list->nrMats++;
     ListNode *newNode = malloc(sizeof(ListNode));
     newNode->mat = mat;
 
     newNode->next = list->head;
     list->head = newNode;
+}
+
+void deleteMatrix(MatrixList *list, void *mat, void (*freeFunc) (void *)) {
+    if (list->head == NULL) {
+        return;
+    }
+
+    ListNode *temp, *prev;
+
+    if (list->head->mat == mat) {
+        temp = list->head;
+        list->head = list->head->next;
+        list->nrMats--;
+        freeFunc(temp->mat);
+        free(temp);
+        return;
+    }
+
+    prev = list->head;
+    temp = list->head->next;
+
+    while (temp != NULL) {
+        if (temp->mat == mat) {
+            prev->next = temp->next;
+            list->nrMats--;
+            freeFunc(temp->mat);
+            free(temp);
+            return;
+        }
+
+        temp = temp->next;
+        prev = prev->next;
+    }
 }
 
 MatrixList* freeMatList(MatrixList *list, void (*freeFunc) (void *)) {
@@ -31,6 +65,7 @@ MatrixList* freeMatList(MatrixList *list, void (*freeFunc) (void *)) {
 
         freeFunc(temp->mat);
         temp->mat = NULL;
+        free(temp);
 
         temp = head;
     }

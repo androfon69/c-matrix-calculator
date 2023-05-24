@@ -19,19 +19,19 @@ int isNameValid(char *name) {
     return 1;
 }
 
-int isMatInList(MatrixList *list, char *matName) {
+Matrix* isMatInList(MatrixList *list, char *matName) {
     ListNode *temp = list->head;
 
     while (temp != NULL) {
         Matrix *mat = (Matrix*)temp->mat;
         if (!strcmp(mat->name, matName)) {
-            return 1;
+            return mat;
         }
 
         temp = temp->next;
     }
 
-    return 0;
+    return NULL;
 }
 
 void clearInput() {

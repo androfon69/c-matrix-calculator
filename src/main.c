@@ -19,6 +19,14 @@ int main() {
         printf("\n");
     }
 
+    if (isMatInList(list, "Bala")) {
+        printf("da\n");
+    }
+
+    mat = isMatInList(list, "Baba");
+
+    deleteMatrix(list, mat, freeMatrix);
+
     printMatrixList(list);
 
     freeMatList(list, freeMatrix);

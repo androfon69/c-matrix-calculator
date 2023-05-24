@@ -9,7 +9,7 @@ typedef struct Matrix {
 
 Matrix* readMatrix();
 int isNameValid(char *name);
-int isMatInList(MatrixList *list, char *matName);
+Matrix* isMatInList(MatrixList *list, char *matName);
 void clearInput();
 void clearConsole();
 void printMatrixList(MatrixList *list);
