@@ -6,11 +6,9 @@
 int main() {
     MatrixList *list = initMatList();
 
-    Matrix *mat = readMatrix();
-    insertMatrix(list, mat);
+    Matrix *mat = readMatrix(list);
 
-    Matrix *mat2 = readMatrix();
-    insertMatrix(list, mat2);
+    Matrix *mat2 = readMatrix(list);
 
     for (int i = 0; i < mat->rows; ++i) {
         for (int j = 0; j < mat->cols; ++j) {

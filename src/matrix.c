@@ -42,7 +42,7 @@ void clearConsole() {
     system("clear");
 }
 
-Matrix* readMatrix() {
+Matrix* readMatrix(MatrixList *list) {
     Matrix *newMatrix = malloc(sizeof(Matrix));
     char tempBuff[256];
 
@@ -98,6 +98,8 @@ Matrix* readMatrix() {
     }
 
     clearInput();
+
+    insertMatrix(list, newMatrix);
 
     return newMatrix;
 }

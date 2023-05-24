@@ -7,7 +7,7 @@ typedef struct Matrix {
     double **elems;
 } Matrix;
 
-Matrix* readMatrix();
+Matrix* readMatrix(MatrixList *list);
 int isNameValid(char *name);
 Matrix* isMatInList(MatrixList *list, char *matName);
 void clearInput();
