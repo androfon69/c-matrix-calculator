@@ -96,19 +96,22 @@ Matrix *transpose(MatrixList *list, char *matName) {
     return mat;
 }
 
-double det(MatrixList *list, char *matName) {
+double det(MatrixList *list, char *matName, int *matExists) {
     Matrix *mat = isMatInList(list, matName);
 
     if (mat == NULL) {
         printf("Matrix doesn't exist!\n");
+        *matExists = 0;
         return 0;
     }
 
     if (mat->rows != mat->cols) {
         printf("Can't calculate determinant of non-square matrix\n");
+        *matExists = 0;
         return 0;
     }
 
+    *matExists = 1;
     int size = mat->rows;
     double det = 1;
 

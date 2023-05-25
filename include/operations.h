@@ -5,6 +5,6 @@
 
 Matrix *multiplication(MatrixList *list, char *matName1, char *matName2);
 Matrix *transpose(MatrixList *list, char *matName);
-double det(MatrixList *list, char *matName);
+double det(MatrixList *list, char *matNam, int *matExists);
 
 #endif

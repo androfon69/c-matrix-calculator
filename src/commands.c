@@ -74,7 +74,7 @@ void run() {
     MatrixList *list = initMatList();
     Matrix *res;
     char commandBuff[256], inputBuff1[256], inputBuff2[256];
-    int noExit = 1;
+    int noExit = 1, matExists;
 
     while (noExit) {
         printf("%s", prompt);
@@ -166,7 +166,11 @@ void run() {
 
                     printf("Matrix: ");
                     scanf("%s", inputBuff1);
-                    printf("%lf\n", det(list, inputBuff1));
+                    double detResult = det(list, inputBuff1, &matExists);
+
+                    if (matExists != 0) {
+                        printf("%lf\n", detResult);
+                    }
 
                     break;
 
