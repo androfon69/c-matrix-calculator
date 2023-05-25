@@ -49,11 +49,11 @@ Matrix *multiplication(MatrixList *list, char *matName1, char *matName2) {
 
     Matrix *newMatrix = allocMatrix(mat1->rows, mat2->cols, nameBuff);
     for (int i = 0; i < newMatrix->rows; ++i) {
-        for (int j = 0; j < newMatrix->rows; ++j) {
+        for (int j = 0; j < newMatrix->cols; ++j) {
             newMatrix->elems[i][j] = 0;
 
             for (int k = 0; k < mat1->cols; ++k) {
-                newMatrix->elems[i][j] += mat1->elems[i][k] + mat2->elems[k][j];
+                newMatrix->elems[i][j] += mat1->elems[i][k] * mat2->elems[k][j];
             }
         }
     }

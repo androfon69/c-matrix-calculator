@@ -4,6 +4,7 @@
 #include "../include/list.h"
 #include "../include/matrix.h"
 #include "../include/operations.h"
+#include "../include/factorizations.h"
 #include "../include/commands.h"
 
 const int nrCommands = NR_COMMS;
@@ -13,7 +14,8 @@ const char commands[][COMM_SIZE] =
         {
                 "help", "clear", "print", "print-all",
                 "read", "delete", "exit", "mult",
-                "trans", "det", "norm", "tr"
+                "trans", "det", "norm", "tr",
+                "lu"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
@@ -29,7 +31,8 @@ const char commandDescriptions[][DESC_SIZE] =
                 " -- transposes input matrix\n",
                 " -- prints determinant of input matrix\n",
                 " -- prints the euclidian norm of input matrix\n",
-                " -- prints trace of input matrix\n"
+                " -- prints trace of input matrix\n\n",
+                " -- performs crout LU factorization\n"
         };
 
 
@@ -197,6 +200,14 @@ void run() {
                     if (matExists != 0) {
                         printf("tr(%s) = %lf\n", inputBuff1, traceResult);
                     }
+
+                    break;
+
+                case LU:
+
+                    printf("Matrix to factorize: ");
+                    scanf("%s", inputBuff1);
+                    crout(list, inputBuff1);
 
                     break;
 

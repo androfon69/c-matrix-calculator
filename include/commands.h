@@ -1,7 +1,7 @@
 #ifndef _COMMANDS_H_
 #define _COMMANDS_H_
 
-#define NR_COMMS 12
+#define NR_COMMS 13
 #define COMM_SIZE 32
 #define DESC_SIZE 64
 #define RED "\033[0;31m"
@@ -17,7 +17,8 @@ extern const char commandDescriptions[][DESC_SIZE];
 enum commandEnum{
                 HELP, CLEAR, PRINT, PRINT_ALL,
                 READ, DELETE, EXIT, MULT,
-                TRANS, DET, NORM, TRACE
+                TRANS, DET, NORM, TRACE,
+                LU
                 };
 
 int isCommandValid(char *command);
