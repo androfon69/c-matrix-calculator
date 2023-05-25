@@ -3,6 +3,7 @@
 #include "../include/list.h"
 #include "../include/matrix.h"
 #include <string.h>
+#include <limits.h>
 
 // functie pentru inmultirea a doua matrici
 Matrix *multiplication(Matrix *mat1, Matrix *mat2) {
@@ -47,22 +48,61 @@ Matrix *multiplication(Matrix *mat1, Matrix *mat2) {
         return NULL;
     }
 }
+// functie pentru a face transpusa unei matrici
+Matrix *transposed(Matrix *mat) {
+    int i, j;
+    // alocam memoria pentru matricea transpusa
+    Matrix *new_matrix;
+    new_matrix = allocMatrix(mat -> cols, mat -> rows, "Transpusa");
+    // transpunerea propiu-zisa
+    for(i = 0; i < new_matrix -> rows; i++) {
+        for(j = 0; j < new_matrix -> cols; j++) {
+            new_matrix -> elems[i][j] = mat -> elems[j][i];
+        }
+    }
+    // returnam matricea transpusa
+    return new_matrix;
+
+}
+
+// functia pentru a calcula determinantul unei matrici( daca matricea este
+// patratica),
+// to be continued
+double determinant(Matrix *matrice) {
+    if(matrice -> rows != matrice -> cols) {
+        printf("Determinantul nu poate fi calculat, matricea nu este patratica\n");
+        // returnam INT_MAX, determinantul nu a fost fi putut calculat
+        return INT_MAX;
+    } else {
+
+    }
+}
 int main() {
     int i,j;
-    Matrix *matrice1, *matrice2, *rezultat;
-    matrice1 = readMatrix();
-    matrice2 =  readMatrix();
-    rezultat = multiplication(matrice1, matrice2);
-    if(rezultat != 0) {
-        printf("Matricea rezultata este:\n");
-        for(i = 0; i < rezultat -> rows; i++) {
-            for(j = 0; j < rezultat -> cols; j++) {
-                printf("%lf ", rezultat -> elems[i][j]);
-            }
-            printf("\n");
+    Matrix *rezultat1, *rezultat2;
+    MatrixList *List;
+    List = (MatrixList *) malloc(sizeof(MatrixList));
+    List -> nrMats = 0;
+    List -> head = NULL;
+    readMatrix(List);
+    readMatrix(List);
+    rezultat1 = transposed(List -> head -> mat);
+    rezultat2 = transposed(List -> head -> next -> mat);
+    // prima matrice transpusa
+    for(i = 0; i < rezultat1 -> rows; i++){
+        for(j = 0; j < rezultat1 -> cols; j++) {
+            printf("%lf ", rezultat1 -> elems[i][j]);
         }
-        freeMatrix(rezultat);
+        printf("\n");
     }
-    freeMatrix(matrice1);
-    freeMatrix(matrice2);
+    // a doua matrice transpusa
+    for(i = 0; i < rezultat2 -> rows; i++) {
+        for(j = 0; j < rezultat2 -> cols; j++) {
+            printf("%lf ", rezultat2 -> elems[i][j]);
+        }
+        printf("\n");
+    }
+    freeMatList(List, freeMatrix);
+    freeMatrix(rezultat1);
+    freeMatrix(rezultat2);
 }
