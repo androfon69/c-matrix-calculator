@@ -13,21 +13,23 @@ const char commands[][COMM_SIZE] =
         {
                 "help", "clear", "print", "print-all",
                 "read", "delete", "exit", "mult",
-                "trans", "det"
+                "trans", "det", "norm", "tr"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
         {
                 " -- prints all available commands\n",
-                " -- clears the terminal\n",
+                " -- clears the terminal\n\n",
                 " -- prints the input matrix, if it exists\n",
                 " -- prints the names of all read matrices\n",
                 " -- reads a new matrix from console\n",
                 " -- deletes input matrix form the list\n",
-                " -- exits the program and deallocates memory\n",
+                " -- exits the program and deallocates memory\n\n",
                 " -- multiplies input matrices\n",
                 " -- transposes input matrix\n",
-                " -- prints determinant of input matrix\n"
+                " -- prints determinant of input matrix\n",
+                " -- prints the euclidian norm of input matrix\n",
+                " -- prints trace of input matrix\n"
         };
 
 
@@ -169,7 +171,31 @@ void run() {
                     double detResult = det(list, inputBuff1, &matExists);
 
                     if (matExists != 0) {
-                        printf("%lf\n", detResult);
+                        printf("det(%s) = %lf\n", inputBuff1, detResult);
+                    }
+
+                    break;
+
+                case NORM:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    double normResult = norm(list, inputBuff1, &matExists);
+
+                    if (matExists != 0) {
+                        printf("norm(%s) = %lf\n", inputBuff1, normResult);
+                    }
+
+                    break;
+
+                case TRACE:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    double traceResult = trace(list, inputBuff1, &matExists);
+
+                    if (matExists != 0) {
+                        printf("tr(%s) = %lf\n", inputBuff1, traceResult);
                     }
 
                     break;

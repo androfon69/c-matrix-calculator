@@ -163,7 +163,7 @@ void printMatrix(MatrixList *list, char *matName) {
         Matrix *mat = (Matrix*)temp->mat;
         if (!strcmp(mat->name, matName)) {
 
-            printf("Matrix %s contains:\n", mat->name);
+            printf("Matrix %s(%d, %d) contains:\n", mat->name, mat->rows, mat->cols);
 
             for (int i = 0; i < mat->rows; ++i) {
                 for (int j = 0; j < mat->cols; ++j) {

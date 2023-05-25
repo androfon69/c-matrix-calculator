@@ -58,7 +58,6 @@ Matrix *multiplication(MatrixList *list, char *matName1, char *matName2) {
         }
     }
 
-    clearConsole();
     insertMatrix(list, newMatrix);
 
     return newMatrix;
@@ -166,4 +165,52 @@ double det(MatrixList *list, char *matName, int *matExists) {
     free(detMat);
 
     return det;
+}
+
+double norm(MatrixList *list, char *matName, int *matExists) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    *matExists = 1;
+    double result = 0;
+
+    for (int i = 0; i < mat->rows; ++i) {
+        for (int j = 0; j < mat->cols; ++j) {
+            result += mat->elems[i][j] * mat->elems[i][j];
+        }
+    }
+
+    result = sqrt(result);
+
+    return result;
+}
+
+double trace(MatrixList *list, char *matName, int *matExists) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    if (mat->rows != mat->cols) {
+        printf("Can't calculate trace of non-square matrix\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    *matExists = 1;
+    double result = 0;
+
+    for (int i = 0; i < mat->rows; ++i) {
+        result += mat->elems[i][i];
+    }
+
+    return result;
 }
