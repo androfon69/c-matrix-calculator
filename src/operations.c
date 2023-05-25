@@ -1,108 +1,216 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/list.h"
-#include "../include/matrix.h"
+#include <math.h>
 #include <string.h>
 #include <limits.h>
+#include "../include/list.h"
+#include "../include/matrix.h"
+#include "../include/operations.h"
 
-// functie pentru inmultirea a doua matrici
-Matrix *multiplication(Matrix *mat1, Matrix *mat2) {
-    int i, j, k;
-    /* verificam daca putem inmulti celo doua matrici, numarul de coloane ale
-     * primei matrici sa fie egal cu numarul de linii ale celei de a doua
-     */
-    if(mat1 -> cols == mat2 -> rows) {
-        // putem face inmultirea
-        // alocam memoria pentru noua matrice
-        Matrix *new_matrix;
-        new_matrix = (Matrix *) malloc(sizeof(Matrix));
-        new_matrix -> rows = mat1 -> rows;
-        new_matrix -> cols = mat2 -> cols;
-        new_matrix -> name = (char *) malloc(9 * sizeof(char));
-        strcpy(new_matrix -> name, "Rezultat");
-        new_matrix -> elems = (double **) malloc(new_matrix -> rows * sizeof(double *));
-        new_matrix->elems[0] = malloc(new_matrix->rows * new_matrix->cols * sizeof(double));
-        for (int i = 1; i < new_matrix->rows; ++i) {
-            new_matrix->elems[i] = new_matrix->elems[0] + i * new_matrix->cols;
-        }
-        // initializam matricea cu 0
-        for(i = 0; i < new_matrix -> rows; i++) {
-            for(j = 0; j < new_matrix -> cols; j++) {
-                new_matrix -> elems[i][j] = 0;
-            }
-        }
-        // inmultirea propiu-zisa
-        for(i = 0; i < new_matrix -> rows; i++) {
-            for(j = 0; j < new_matrix -> cols; j++) {
-                for(k = 0; k < mat1 -> cols; k++) {
-                    new_matrix -> elems[i][j] +=
-                            mat1 -> elems[i][k] * mat2 -> elems[k][j];
-                }
-            }
-        }
-        // returnam matricea rezultata in urma inmultirii
-        return new_matrix;
-    } else {
-        // nu putem face inmultirea
-        printf("Inmultirea imposibila, dimensiuni incompatibile ale matricilor\n");
+Matrix *multiplication(MatrixList *list, char *matName1, char *matName2) {
+    Matrix *mat1 = isMatInList(list, matName1);
+
+    if (mat1 == NULL) {
+        printf("Matrix %s doesn't exist!\n", matName1);
         return NULL;
     }
-}
-// functie pentru a face transpusa unei matrici
-Matrix *transposed(Matrix *mat) {
-    int i, j;
-    // alocam memoria pentru matricea transpusa
-    Matrix *new_matrix;
-    new_matrix = allocMatrix(mat -> cols, mat -> rows, "Transpusa");
-    // transpunerea propiu-zisa
-    for(i = 0; i < new_matrix -> rows; i++) {
-        for(j = 0; j < new_matrix -> cols; j++) {
-            new_matrix -> elems[i][j] = mat -> elems[j][i];
+
+    Matrix *mat2 = isMatInList(list, matName2);
+
+    if (mat2 == NULL) {
+        printf("Matrix %s doesn't exist!\n", matName2);
+        return NULL;
+    }
+
+    if (mat1->cols != mat2->rows) {
+        printf("Matrix size mismatch!\n");
+        printf("Attempted to multiply matrices of sizes (%d, %d) and (%d, %d)\n",
+               mat1->rows, mat1->cols, mat2->rows, mat2->cols);
+        
+        return NULL;
+    }
+
+    char nameBuff[256];
+    int retResult;
+
+    do {
+        printf("Enter a name for the result matrix:\n");
+        scanf("%s", nameBuff);
+        clearInput();
+
+        if (!strcmp(nameBuff, matName1) || !strcmp(nameBuff, matName2)) {
+            printf("Matrix name can't be the same as input matrices!\n");
+            retResult = 0;
+        }
+        else {
+            retResult = isNameValid(list, nameBuff);
+        }
+    } while (retResult == 0);
+
+    Matrix *newMatrix = allocMatrix(mat1->rows, mat2->cols, nameBuff);
+    for (int i = 0; i < newMatrix->rows; ++i) {
+        for (int j = 0; j < newMatrix->rows; ++j) {
+            newMatrix->elems[i][j] = 0;
+
+            for (int k = 0; k < mat1->cols; ++k) {
+                newMatrix->elems[i][j] += mat1->elems[i][k] + mat2->elems[k][j];
+            }
         }
     }
-    // returnam matricea transpusa
-    return new_matrix;
 
+    insertMatrix(list, newMatrix);
+
+    return newMatrix;
 }
 
-// functia pentru a calcula determinantul unei matrici( daca matricea este
-// patratica),
-// to be continued
-double determinant(Matrix *matrice) {
-    if(matrice -> rows != matrice -> cols) {
-        printf("Determinantul nu poate fi calculat, matricea nu este patratica\n");
-        // returnam INT_MAX, determinantul nu a fost fi putut calculat
-        return INT_MAX;
-    } else {
+Matrix *transpose(MatrixList *list, char *matName) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!\n");
+        return NULL;
+    }
+
+    double **transp = malloc(mat->cols * sizeof(double*));
+    transp[0] = malloc(mat->cols * mat->rows * sizeof(double));
+    for (int i = 1; i < mat->cols; ++i) {
+        transp[i] = transp[0] + i * mat->rows;
+    }
+
+    for (int i = 0; i < mat->cols; ++i) {
+        for (int j = 0; j < mat->rows; ++j) {
+            transp[i][j] = mat->elems[j][i];
+        }
+    }
+
+    int aux = mat->rows;
+    mat->rows = mat->cols;
+    mat->cols =aux;
+
+    free(mat->elems[0]);
+    free(mat->elems);
+
+    mat->elems = transp;
+
+    return mat;
+}
+
+double det(MatrixList *list, char *matName, int *matExists) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    if (mat->rows != mat->cols) {
+        printf("Can't calculate determinant of non-square matrix\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    *matExists = 1;
+    int size = mat->rows;
+    double det = 1;
+
+    double **detMat = malloc(size * sizeof(double*));
+    for (int i = 0; i < size; ++i) {
+        detMat[i] = malloc(size * sizeof(double));
+    }
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            detMat[i][j] = mat->elems[i][j];
+        }
+    }
+
+    /* Gaussian elimination with the partial pivoting method */
+    /* At each step, the pivot with the largest absolute value is chosen */
+
+    for (int i = 0; i < size; ++i) {
+        double pivot = detMat[i][i];
+        int pivotRow = i;
+
+        for (int j = i + 1; j < size; ++j) {
+            if (fabs(detMat[j][i]) > fabs(pivot)) {
+                pivot = detMat[j][i];
+                pivotRow = j;
+            }
+        }
+
+        if (pivot == 0.0) {
+            return 0;
+        }
+
+        if (pivotRow != i) {
+            double *tempRow = detMat[i];
+            detMat[i] =detMat[pivotRow];
+            detMat[pivotRow] = tempRow;
+            det *= -1;
+        }
+        det *= pivot;
+
+        for (int j = i + 1; j < size; ++j) {
+            for (int k = i + 1; k < size; ++k) {
+                detMat[j][k] -= detMat[j][i] * detMat[i][k] / pivot;
+            }
+        }
 
     }
+
+    for (int i = 0; i < size; ++i) {
+        free(detMat[i]);
+    }
+    free(detMat);
+
+    return det;
 }
-int main() {
-    int i,j;
-    Matrix *rezultat1, *rezultat2;
-    MatrixList *List;
-    List = (MatrixList *) malloc(sizeof(MatrixList));
-    List -> nrMats = 0;
-    List -> head = NULL;
-    readMatrix(List);
-    readMatrix(List);
-    rezultat1 = transposed(List -> head -> mat);
-    rezultat2 = transposed(List -> head -> next -> mat);
-    // prima matrice transpusa
-    for(i = 0; i < rezultat1 -> rows; i++){
-        for(j = 0; j < rezultat1 -> cols; j++) {
-            printf("%lf ", rezultat1 -> elems[i][j]);
-        }
-        printf("\n");
+
+double norm(MatrixList *list, char *matName, int *matExists) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!\n");
+        *matExists = 0;
+        return 0;
     }
-    // a doua matrice transpusa
-    for(i = 0; i < rezultat2 -> rows; i++) {
-        for(j = 0; j < rezultat2 -> cols; j++) {
-            printf("%lf ", rezultat2 -> elems[i][j]);
+
+    *matExists = 1;
+    double result = 0;
+
+    for (int i = 0; i < mat->rows; ++i) {
+        for (int j = 0; j < mat->cols; ++j) {
+            result += mat->elems[i][j] * mat->elems[i][j];
         }
-        printf("\n");
     }
-    freeMatList(List, freeMatrix);
-    freeMatrix(rezultat1);
-    freeMatrix(rezultat2);
+
+    result = sqrt(result);
+
+    return result;
+}
+
+double trace(MatrixList *list, char *matName, int *matExists) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix doesn't exist!\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    if (mat->rows != mat->cols) {
+        printf("Can't calculate trace of non-square matrix\n");
+        *matExists = 0;
+        return 0;
+    }
+
+    *matExists = 1;
+    double result = 0;
+
+    for (int i = 0; i < mat->rows; ++i) {
+        result += mat->elems[i][i];
+    }
+
+    return result;
 }

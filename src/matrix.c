@@ -64,7 +64,7 @@ int isNameValid(MatrixList *list, char *name) {
 
     for (u_int i = 0; i < strlen(name); ++i) {
         if (!strchr(validChars, name[i])) {
-            printf("Name can contain only letters and numbers!\n");
+            printf("Name can contain only letters, numbers, \"-\" and \"_\" !\n");
             return 0;
         }
     }
@@ -97,7 +97,7 @@ Matrix* readMatrix(MatrixList *list) {
         int retValue = scanf("%d", &rows);
         clearInput();
 
-        if (retValue != 1) {
+        if (retValue != 1 || rows < 1) {
             printf("Invalid size! Please enter an integer\n");
         }
         else {
@@ -110,7 +110,7 @@ Matrix* readMatrix(MatrixList *list) {
         int retValue = scanf("%d", &cols);
         clearInput();
 
-        if (retValue != 1) {
+        if (retValue != 1 || cols < 1) {
             printf("Invalid size! Please enter an integer\n");
         }
         else {
@@ -163,7 +163,7 @@ void printMatrix(MatrixList *list, char *matName) {
         Matrix *mat = (Matrix*)temp->mat;
         if (!strcmp(mat->name, matName)) {
 
-            printf("Matrix %s contains:\n", mat->name);
+            printf("Matrix %s(%d, %d) contains:\n", mat->name, mat->rows, mat->cols);
 
             for (int i = 0; i < mat->rows; ++i) {
                 for (int j = 0; j < mat->cols; ++j) {

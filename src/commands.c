@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../include/list.h"
 #include "../include/matrix.h"
+#include "../include/operations.h"
 #include "../include/commands.h"
 
 const int nrCommands = NR_COMMS;
@@ -11,18 +12,24 @@ const char prompt[] = "\033[0;31mmatrix-calc\033[0m $$ ";
 const char commands[][COMM_SIZE] =
         {
                 "help", "clear", "print", "print-all",
-                "read", "delete", "exit"
+                "read", "delete", "exit", "mult",
+                "trans", "det", "norm", "tr"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
         {
                 " -- prints all available commands\n",
-                " -- clears the terminal\n",
+                " -- clears the terminal\n\n",
                 " -- prints the input matrix, if it exists\n",
                 " -- prints the names of all read matrices\n",
                 " -- reads a new matrix from console\n",
                 " -- deletes input matrix form the list\n",
-                " -- exists the program\n"
+                " -- exits the program and deallocates memory\n\n",
+                " -- multiplies input matrices\n",
+                " -- transposes input matrix\n",
+                " -- prints determinant of input matrix\n",
+                " -- prints the euclidian norm of input matrix\n",
+                " -- prints trace of input matrix\n"
         };
 
 
@@ -67,8 +74,9 @@ void initScreen() {
 
 void run() {
     MatrixList *list = initMatList();
-    char commandBuff[256], inputBuff[256];
-    int noExit = 1;
+    Matrix *res;
+    char commandBuff[256], inputBuff1[256], inputBuff2[256];
+    int noExit = 1, matExists;
 
     while (noExit) {
         printf("%s", prompt);
@@ -95,9 +103,9 @@ void run() {
                 case PRINT:
 
                     printf("Enter the matrix you want to print:\n");
-                    scanf("%s", inputBuff);
+                    scanf("%s", inputBuff1);
                     clearInput();
-                    printMatrix(list, inputBuff);
+                    printMatrix(list, inputBuff1);
                     break;
 
                 case PRINT_ALL:
@@ -113,9 +121,9 @@ void run() {
                 case DELETE:
 
                     printf("Enter the matrix you want to delete:\n");
-                    scanf("%s", inputBuff);
+                    scanf("%s", inputBuff1);
                     clearInput();
-                    Matrix *mat = isMatInList(list, inputBuff);
+                    Matrix *mat = isMatInList(list, inputBuff1);
                     if (mat == NULL) {
                         printf("Matrix doesn't exist!\n");
                     }
@@ -128,6 +136,68 @@ void run() {
                 case EXIT:
 
                     noExit = 0;
+                    break;
+
+                case MULT:
+
+                    printf("First matrix: ");
+                    scanf("%s", inputBuff1);
+                    printf("Second matrix: ");
+                    scanf("%s", inputBuff2);
+                    res = multiplication(list, inputBuff1, inputBuff2);
+
+                    if (res != NULL) {
+                        printMatrix(list, res->name);
+                    }
+
+                    break;
+
+                case TRANS:
+
+                    printf("Matrix to transpose: ");
+                    scanf("%s", inputBuff1);
+                    res = transpose(list, inputBuff1);
+
+                    if (res != NULL) {
+                        printMatrix(list, res->name);
+                    }
+
+                    break;
+
+                case DET:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    double detResult = det(list, inputBuff1, &matExists);
+
+                    if (matExists != 0) {
+                        printf("det(%s) = %lf\n", inputBuff1, detResult);
+                    }
+
+                    break;
+
+                case NORM:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    double normResult = norm(list, inputBuff1, &matExists);
+
+                    if (matExists != 0) {
+                        printf("norm(%s) = %lf\n", inputBuff1, normResult);
+                    }
+
+                    break;
+
+                case TRACE:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    double traceResult = trace(list, inputBuff1, &matExists);
+
+                    if (matExists != 0) {
+                        printf("tr(%s) = %lf\n", inputBuff1, traceResult);
+                    }
+
                     break;
 
                 default:

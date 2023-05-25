@@ -1,14 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -g
-DEPS = include/list.h include/matrix.h include/commands.h
-OBJS = matrix.o list.o commands.o main.o
+CFLAGS = -Wall -g -lm
+DEPS = include/list.h include/matrix.h include/commands.h include/operations.h
+OBJS = matrix.o list.o commands.o operations.o main.o
 
-main: matrix.o list.o main.o commands.o
+main: $(OBJS)
 	$(CC) -o main $(OBJS) $(CFLAGS)
 	rm -f *.o
 
 main.o: src/main.c $(DEPS)
 	$(CC) -c -o main.o src/main.c $(CFLAGS)
+
+operations.o: src/operations.c $(DEPS)
+	$(CC) -c -o operations.o src/operations.c $(CFLAGS)
 
 matrix.o: src/matrix.c $(DEPS)
 	$(CC) -c -o matrix.o src/matrix.c $(CFLAGS)
