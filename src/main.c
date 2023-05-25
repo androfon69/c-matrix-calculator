@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "../include/list.h"
 #include "../include/matrix.h"
+#include "../include/operations.h"
 #include "../include/commands.h"
 
 int main() {

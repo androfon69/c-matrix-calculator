@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../include/list.h"
 #include "../include/matrix.h"
+#include "../include/operations.h"
 #include "../include/commands.h"
 
 const int nrCommands = NR_COMMS;
@@ -11,7 +12,8 @@ const char prompt[] = "\033[0;31mmatrix-calc\033[0m $$ ";
 const char commands[][COMM_SIZE] =
         {
                 "help", "clear", "print", "print-all",
-                "read", "delete", "exit"
+                "read", "delete", "exit", "mult",
+                "trans", "det"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
@@ -22,7 +24,10 @@ const char commandDescriptions[][DESC_SIZE] =
                 " -- prints the names of all read matrices\n",
                 " -- reads a new matrix from console\n",
                 " -- deletes input matrix form the list\n",
-                " -- exists the program\n"
+                " -- exits the program and deallocates memory\n",
+                " -- multiplies input matrices\n",
+                " -- transposes input matrix\n",
+                " -- prints determinant of input matrix\n"
         };
 
 
@@ -67,7 +72,7 @@ void initScreen() {
 
 void run() {
     MatrixList *list = initMatList();
-    char commandBuff[256], inputBuff[256];
+    char commandBuff[256], inputBuff1[256], inputBuff2[256];
     int noExit = 1;
 
     while (noExit) {
@@ -95,9 +100,9 @@ void run() {
                 case PRINT:
 
                     printf("Enter the matrix you want to print:\n");
-                    scanf("%s", inputBuff);
+                    scanf("%s", inputBuff1);
                     clearInput();
-                    printMatrix(list, inputBuff);
+                    printMatrix(list, inputBuff1);
                     break;
 
                 case PRINT_ALL:
@@ -113,9 +118,9 @@ void run() {
                 case DELETE:
 
                     printf("Enter the matrix you want to delete:\n");
-                    scanf("%s", inputBuff);
+                    scanf("%s", inputBuff1);
                     clearInput();
-                    Matrix *mat = isMatInList(list, inputBuff);
+                    Matrix *mat = isMatInList(list, inputBuff1);
                     if (mat == NULL) {
                         printf("Matrix doesn't exist!\n");
                     }
@@ -128,6 +133,32 @@ void run() {
                 case EXIT:
 
                     noExit = 0;
+                    break;
+
+                case MULT:
+
+                    printf("First matrix: ");
+                    scanf("%s", inputBuff1);
+                    printf("Second matrix: ");
+                    scanf("%s", inputBuff2);
+                    multiplication(list, inputBuff1, inputBuff2);
+
+                    break;
+
+                case TRANS:
+
+                    printf("Matrix to transpose: ");
+                    scanf("%s", inputBuff1);
+                    transpose(list, inputBuff1);
+
+                    break;
+
+                case DET:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    printf("%lf\n", det(list, inputBuff1));
+
                     break;
 
                 default:
