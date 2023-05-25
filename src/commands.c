@@ -15,7 +15,7 @@ const char commands[][COMM_SIZE] =
                 "help", "clear", "print", "print-all",
                 "read", "delete", "exit", "mult",
                 "trans", "det", "norm", "tr",
-                "lu"
+                "inv", "lu"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
@@ -31,7 +31,8 @@ const char commandDescriptions[][DESC_SIZE] =
                 " -- transposes input matrix\n",
                 " -- prints determinant of input matrix\n",
                 " -- prints the euclidian norm of input matrix\n",
-                " -- prints trace of input matrix\n\n",
+                " -- prints trace of input matrix\n",
+                " -- prints inverse of input matrix\n\n",
                 " -- performs crout LU factorization\n"
         };
 
@@ -199,6 +200,18 @@ void run() {
 
                     if (matExists != 0) {
                         printf("tr(%s) = %lf\n", inputBuff1, traceResult);
+                    }
+
+                    break;
+
+                case INV:
+
+                    printf("Matrix: ");
+                    scanf("%s", inputBuff1);
+                    Matrix *inv = inverse(list, inputBuff1);
+
+                    if (inv != NULL) {
+                        printMatrix(list, inv->name);
                     }
 
                     break;

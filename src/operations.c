@@ -214,3 +214,112 @@ double trace(MatrixList *list, char *matName, int *matExists) {
 
     return result;
 }
+
+int gaussElimination(double **mat, int size) {
+    double factor;
+
+    for (int i = 0; i < size; ++i) {
+        if (mat[i][i] == 0.0) {
+            return 0;
+        }
+
+        for (int j = 0; j < size; ++j) {
+            if (j != i) {
+                factor = mat[j][i] / mat[i][i];
+
+                for (int k = 0; k < size * 2; ++k) {
+                    mat[j][k] -= factor * mat[i][k];
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < size; ++i) {
+        factor = mat[i][i];
+
+        for (int j = 0; j < size * 2; ++j) {
+            mat[i][j] /= factor;
+        }
+    }
+
+    return 1;
+}
+
+Matrix *inverse(MatrixList *list, char *matName) {
+    Matrix *mat = isMatInList(list, matName);
+
+    if (mat == NULL) {
+        printf("Matrix %s doesn't exist!\n", matName);
+        return NULL;
+    }
+
+    if (mat->rows != mat->cols) {
+        printf("Can't find the inverse of non-square matrix\n");
+        return NULL;
+    }
+
+    char nameBuff[256];
+    int retResult;
+
+    do {
+        printf("Enter a name for the inverse matrix:\n");
+        scanf("%s", nameBuff);
+        clearInput();
+
+        if (!strcmp(nameBuff, matName)) {
+            printf("Matrix name can't be the same as input matrices!\n");
+            retResult = 0;
+        }
+        else {
+            retResult = isNameValid(list, nameBuff);
+        }
+    } while (retResult == 0);
+
+    int size = mat->rows;
+
+    double **augmentedMatrix = malloc(size * sizeof(double*));
+    for (int i = 0; i < size; ++i) {
+        augmentedMatrix[i] = malloc((size * 2) * sizeof(double));
+    }
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size * 2; ++j) {
+            if (j < size) {
+                augmentedMatrix[i][j] = mat->elems[i][j];
+            }
+            else {
+                if (i == j - size) {
+                    augmentedMatrix[i][j] = 1.0;
+                }
+                else {
+                    augmentedMatrix[i][j] = 0.0;
+                }
+            }
+        }
+    }
+
+    if (gaussElimination(augmentedMatrix, size) == 0) {
+        printf("Matrix is singular, can't calculate inverse\n");
+
+        for (int i = 0; i < size; ++i) {
+            free(augmentedMatrix[i]);
+        }
+        free(augmentedMatrix);
+    }
+
+    Matrix *inverse = allocMatrix(mat->rows, mat->cols, nameBuff);
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            inverse->elems[i][j] = augmentedMatrix[i][j + size];
+        }
+    }
+
+    for (int i = 0; i < size; ++i) {
+        free(augmentedMatrix[i]);
+    }
+    free(augmentedMatrix);
+
+    insertMatrix(list, inverse);
+    return inverse;
+}
