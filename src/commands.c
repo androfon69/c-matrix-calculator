@@ -72,6 +72,7 @@ void initScreen() {
 
 void run() {
     MatrixList *list = initMatList();
+    Matrix *res;
     char commandBuff[256], inputBuff1[256], inputBuff2[256];
     int noExit = 1;
 
@@ -141,7 +142,11 @@ void run() {
                     scanf("%s", inputBuff1);
                     printf("Second matrix: ");
                     scanf("%s", inputBuff2);
-                    multiplication(list, inputBuff1, inputBuff2);
+                    res = multiplication(list, inputBuff1, inputBuff2);
+
+                    if (res != NULL) {
+                        printMatrix(list, res->name);
+                    }
 
                     break;
 
@@ -149,7 +154,11 @@ void run() {
 
                     printf("Matrix to transpose: ");
                     scanf("%s", inputBuff1);
-                    transpose(list, inputBuff1);
+                    res = transpose(list, inputBuff1);
+
+                    if (res != NULL) {
+                        printMatrix(list, res->name);
+                    }
 
                     break;
 

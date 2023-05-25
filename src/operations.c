@@ -60,7 +60,6 @@ Matrix *multiplication(MatrixList *list, char *matName1, char *matName2) {
 
     clearConsole();
     insertMatrix(list, newMatrix);
-    printMatrix(list, newMatrix->name);
 
     return newMatrix;
 }
@@ -93,8 +92,6 @@ Matrix *transpose(MatrixList *list, char *matName) {
     free(mat->elems);
 
     mat->elems = transp;
-
-    printMatrix(list, matName);
 
     return mat;
 }
