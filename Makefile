@@ -3,7 +3,7 @@ CFLAGS = -Wall -g -lm
 DEPS = include/list.h include/matrix.h include/commands.h include/operations.h
 OBJS = matrix.o list.o commands.o operations.o main.o
 
-main: matrix.o list.o main.o commands.o operations.o
+main: $(OBJS)
 	$(CC) -o main $(OBJS) $(CFLAGS)
 	rm -f *.o
 
