@@ -63,6 +63,59 @@ Matrix *multiplication(MatrixList *list, char *matName1, char *matName2) {
     return newMatrix;
 }
 
+Matrix *addition(MatrixList *list, char *matName1, char *matName2) {
+    Matrix *mat1 = isMatInList(list, matName1);
+
+    if (mat1 == NULL) {
+        printf("Matrix %s doesn't exist!\n", matName1);
+        return NULL;
+    }
+
+    Matrix *mat2 = isMatInList(list, matName2);
+
+    if (mat2 == NULL) {
+        printf("Matrix %s doesn't exist!\n", matName2);
+        return NULL;
+    }
+
+    if (mat1->cols != mat2->cols || mat1->rows != mat2->rows) {
+        printf("Matrix size mismatch!\n");
+        printf("Attempted to add matrices of sizes (%d, %d) and (%d, %d)\n",
+               mat1->rows, mat1->cols, mat2->rows, mat2->cols);
+
+        return NULL;
+    }
+
+    char nameBuff[256];
+    int retResult;
+
+    do {
+        printf("Enter a name for the result matrix:\n");
+        scanf("%s", nameBuff);
+        clearInput();
+
+        if (!strcmp(nameBuff, matName1) || !strcmp(nameBuff, matName2)) {
+            printf("Matrix name can't be the same as input matrices!\n");
+            retResult = 0;
+        }
+        else {
+            retResult = isNameValid(list, nameBuff);
+        }
+    } while (retResult == 0);
+
+    Matrix *newMatrix = allocMatrix(mat1->rows, mat1->cols, nameBuff);
+
+    for (int i = 0; i < mat1->rows; ++i) {
+        for (int j = 0; j < mat1->cols; ++j) {
+            newMatrix->elems[i][j] = mat1->elems[i][j] + mat2->elems[i][j];
+        }
+    }
+
+    insertMatrix(list, newMatrix);
+
+    return newMatrix;
+}
+
 Matrix *transpose(MatrixList *list, char *matName) {
     Matrix *mat = isMatInList(list, matName);
 

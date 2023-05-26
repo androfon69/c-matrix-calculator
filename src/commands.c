@@ -13,9 +13,9 @@ const char prompt[] = "\033[0;31mmatrix-calc\033[0m $$ ";
 const char commands[][COMM_SIZE] =
         {
                 "help", "clear", "print", "print-all",
-                "read", "delete", "exit", "mult",
-                "trans", "det", "norm", "tr",
-                "inv", "lu", "qr"
+                "read", "delete", "exit", "add",
+                "mult", "trans", "det", "norm",
+                "tr", "inv", "lu", "qr"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
@@ -27,6 +27,7 @@ const char commandDescriptions[][DESC_SIZE] =
                 " -- reads a new matrix from console\n",
                 " -- deletes input matrix form the list\n",
                 " -- exits the program and deallocates memory\n\n",
+                " -- adds input matrices\n",
                 " -- multiplies input matrices\n",
                 " -- transposes input matrix\n",
                 " -- prints determinant of input matrix\n",
@@ -141,6 +142,20 @@ void run() {
                 case EXIT:
 
                     noExit = 0;
+                    break;
+
+                case ADD:
+
+                    printf("First matrix: ");
+                    scanf("%s", inputBuff1);
+                    printf("Second matrix: ");
+                    scanf("%s", inputBuff2);
+                    res = addition(list, inputBuff1, inputBuff2);
+
+                    if (res != NULL) {
+                        printMatrix(list, res->name);
+                    }
+
                     break;
 
                 case MULT:
