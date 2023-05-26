@@ -5,4 +5,5 @@
 #ifndef C_MATRIX_CALCULATOR_FACTORIZATIONS_H
 #define C_MATRIX_CALCULATOR_FACTORIZATIONS_H
 MatrixList *crout(MatrixList *list,Matrix *matrice ,char *nume_matrice);
+MatrixList *QR(MatrixList *list, Matrix *matrice, char *nume_matrice);
 #endif //C_MATRIX_CALCULATOR_FACTORIZATIONS_H
