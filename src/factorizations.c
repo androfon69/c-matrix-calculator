@@ -3,7 +3,7 @@
 #include "../include/list.h"
 #include "../include/matrix.h"
 #include "../include/factorizations.h"
-
+#include <math.h>
 #include <string.h>
 
 MatrixList *crout(MatrixList *list, Matrix *matrice,char *nume_matrice) {
@@ -100,6 +100,105 @@ MatrixList *crout(MatrixList *list, Matrix *matrice,char *nume_matrice) {
     insertMatrix(list, Matrix_L);
     insertMatrix(list, Matrix_U);
     return 0;
+}
+MatrixList *QR(MatrixList *list, Matrix *matrice, char *nume_matrice) {
+    register int  i,  j, k;
+    // matricea trebuie sa fie patratica pentru a face factorizare QR
+    if(matrice -> rows != matrice -> cols) {
+        return NULL;
+    }
+    Matrix *aux = isMatInList(list, nume_matrice);
+
+    if (aux == NULL) {
+        printf("Matrix %s doesn't exist!\n", nume_matrice);
+        return NULL;
+    }
+
+    char nameBuff[256];
+    int retResult;
+    // citim numele primei matrici Q
+    do {
+        printf("Enter a name for the result matrix:\n");
+        scanf("%s", nameBuff);
+        clearInput();
+
+        if (!strcmp(nameBuff, nume_matrice)) {
+            printf("Matrix name can't be the same as input matrices!\n");
+            retResult = 0;
+        }
+        else {
+            retResult = isNameValid(list, nameBuff);
+        }
+    } while (retResult == 0);
+    // alocam memorie pentru matricea Q
+    Matrix *Matrix_Q = allocMatrix(matrice -> rows, matrice -> cols, nameBuff);
+    // citimi numele pentru matricea R
+    do {
+        printf("Enter a name for the result matrix:\n");
+        scanf("%s", nameBuff);
+        clearInput();
+
+        if (!strcmp(nameBuff, nume_matrice)) {
+            printf("Matrix name can't be the same as input matrices!\n");
+            retResult = 0;
+        }
+        else {
+            retResult = isNameValid(list, nameBuff);
+        }
+    } while (retResult == 0);
+    // alocam memoria pentru matricea R
+    Matrix *Matrix_R = allocMatrix(matrice->rows, matrice->cols, nameBuff);
+    // initializam matricea L cu 0
+    for(i = 0; i < matrice -> rows; i++) {
+        for(j = 0; j < matrice -> rows; j++) {
+            Matrix_Q -> elems[i][j] = 0;
+            Matrix_R -> elems[j][i] = 0;
+        }
+    }
+
+    // Copierea matricei A în matricea R
+    for (i = 0; i < matrice -> rows; i++) {
+        for (j = 0; j < matrice -> rows; j++) {
+            Matrix_R -> elems[i][j] = matrice -> elems[i][j];
+        }
+    }
+
+    // Iterare prin coloanele matricei A
+    for (k = 0; k < matrice -> rows; k++) {
+        // Calculul normei coloanei k a matricei R
+        double norm = 0.0;
+        for (i = k; i < matrice -> rows; i++) {
+            norm += Matrix_R -> elems[i][k] * Matrix_R ->elems[i][k];
+        }
+        norm = sqrt(norm);
+
+        // Actualizarea elementului diagonal principal al matricei R
+        if (norm == 0.0) {
+            printf("Factorizare QR imposibila: matricea nu are rang maxim!\n");
+            return;
+        }
+        if (Matrix_R -> elems[k][k] < 0) {
+            norm = -norm;
+        }
+        Matrix_R -> elems[k][k] += norm;
+
+        // Calculul coloanei k a matricei Q
+        for (i = k; i < matrice -> rows; i++) {
+            Matrix_Q -> elems[i][k] = Matrix_R -> elems[i][k] / norm;
+        }
+
+        // Actualizarea matricei R
+        for (j = k + 1; j < matrice -> rows; j++) {
+            double dot_product = 0.0;
+            for (i = k; i < matrice -> rows; i++) {
+                dot_product += Matrix_Q -> elems[i][k] * Matrix_R -> elems[i][j];
+            }
+            for (i = k; i < matrice -> rows; i++) {
+                Matrix_R -> elems[i][j] -= 2.0 * Matrix_Q -> elems[i][k] * dot_product;
+            }
+        }
+    }
+    return NULL;
 }
 int main() {
     MatrixList *list;
