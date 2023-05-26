@@ -15,7 +15,7 @@ const char commands[][COMM_SIZE] =
                 "help", "clear", "print", "print-all",
                 "read", "delete", "exit", "mult",
                 "trans", "det", "norm", "tr",
-                "inv", "lu"
+                "inv", "lu", "qr"
         };
 
 const char commandDescriptions[][DESC_SIZE] =
@@ -33,7 +33,8 @@ const char commandDescriptions[][DESC_SIZE] =
                 " -- prints the euclidian norm of input matrix\n",
                 " -- prints trace of input matrix\n",
                 " -- prints inverse of input matrix\n\n",
-                " -- performs crout LU factorization\n"
+                " -- performs crout LU factorization\n",
+                " -- performs QR factorization of a square matrix\n"
         };
 
 
@@ -213,6 +214,14 @@ void run() {
                     if (inv != NULL) {
                         printMatrix(list, inv->name);
                     }
+
+                    break;
+
+                case QR:
+
+                    printf("Matrix to factorize: ");
+                    scanf("%s", inputBuff1);
+                    qr(list, inputBuff1);
 
                     break;
 
