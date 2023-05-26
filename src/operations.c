@@ -358,6 +358,8 @@ Matrix *inverse(MatrixList *list, char *matName) {
             free(augmentedMatrix[i]);
         }
         free(augmentedMatrix);
+
+        return NULL;
     }
 
     Matrix *inverse = allocMatrix(mat->rows, mat->cols, nameBuff);
