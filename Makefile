@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g -lm
-DEPS = include/list.h include/matrix.h include/commands.h include/operations.h
-OBJS = matrix.o list.o commands.o operations.o main.o
+DEPS = include/list.h include/matrix.h include/commands.h include/operations.h include/factorizations.h
+OBJS = matrix.o list.o commands.o factorizations.o operations.o main.o
 
 main: $(OBJS)
 	$(CC) -o main $(OBJS) $(CFLAGS)
@@ -21,6 +21,9 @@ list.o: src/list.c $(DEPS)
 
 commands.o: src/commands.c $(DEPS)
 	$(CC) -c -o commands.o src/commands.c $(CFLAGS)
+
+factorizations.o: src/factorizations.c $(DEPS)
+	$(CC) -c -o factorizations.o src/factorizations.c $(CFLAGS)
 
 run: main
 	./main

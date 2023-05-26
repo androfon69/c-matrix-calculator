@@ -1,9 +1,13 @@
-//
-// Created by adelin on 25.05.2023.
-//
+#ifndef _FACTORIZATIONS_H
+#define _FACTORIZATIONS_H
+
 
 #ifndef C_MATRIX_CALCULATOR_FACTORIZATIONS_H
 #define C_MATRIX_CALCULATOR_FACTORIZATIONS_H
-MatrixList *crout(MatrixList *list,Matrix *matrice ,char *nume_matrice);
+
 MatrixList *QR(MatrixList *list, Matrix *matrice, char *nume_matrice);
-#endif //C_MATRIX_CALCULATOR_FACTORIZATIONS_H
+
+void crout(MatrixList *list, char *matName);
+
+#endif
+>>>>>>> main
